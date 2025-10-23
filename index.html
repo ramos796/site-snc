@@ -5,7 +5,590 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regras Royal RP</title>
     <link rel="icon" href="https://royalrp.pt/favicon2.png" type="image/png">
+    <style><!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regras Royal RP</title>
+    <link rel="icon" href="https://royalrp.pt/favicon2.png" type="image/png">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: rgb(255, 255, 255);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            text-align: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+        }
+        header img {
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #949494;
+            margin: 0;
+        }
+.regra-img {
+        width: 100%;        /* ocupa a largura da regra */
+        max-width: 400px;   /* tamanho máximo */
+        height: auto;       /* mantém proporção */
+        margin-top: 5px;    /* espaço entre texto e imagem */
+        border-radius: 5px; /* cantos arredondados */
+        display: block;     /* garante que fique em linha própria */
+        cursor: pointer; /* indica que é clicável */
+        }
+
+.modal {
+    display: none; /* escondido por padrão */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center; /* centro horizontal */
+    align-items: center;     /* centro vertical */
+    overflow: none;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    display: block;
+    margin: 10% auto;
+    max-width: 90%;
+    border-radius: 10px;
+}
+
+
+        /* Search Bar */
+#searchBar {
+    width: 300px;                       /* Largura fixa */
+    max-width: 500px;                   /* Largura máxima */
+    padding: 10px;                      /* Padding interno */
+    font-size: 16px;                    /* Tamanho da fonte */
+    border-radius: 5px;                 /* Bordas arredondadas */
+    border: none;                        /* Sem borda */
+    background-color: #333;             /* Fundo da barra */
+    color: #fff;                        /* Texto branco */
+}
+
+#searchBar::placeholder {
+    color: #fff;                        /* Placeholder branco */
+    font-weight: bold;                  /* Placeholder em negrito */
+}
+
+        /* Container da Search + Dropdown */
+.search-dropdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* espaço entre search e dropdown */
+  margin: 20px 0;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;                  /* Necessário para o conteúdo absoluto */
+    display: inline-block;               /* Inline para ficar ao lado da search bar */
+}
+
+.dropdown-btn {
+  padding: 10px 15px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px; 
+}
+
+/* Conteúdo do dropdown */
+.dropdown-content {
+  display: none;        /* escondido inicialmente */
+  position: absolute;
+  top: 0;
+  left: 100%;           /* abre à direita do botão */
+  margin-left: 10px;    /* espaço entre botão e conteúdo */
+  background-color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 999;
+  grid-template-columns: repeat(6, auto); /* 3 colunas */
+  gap: 5px; /* espaço entre botões */
+}
+
+/* Botões do dropdown */
+.dropdown-content button {
+  padding: 5px 10px;
+  background-color: #444444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Grade dos botões do dropdown */
+.category-grid {
+    display: grid;                        
+    grid-template-columns: repeat(4, 1fr); /* 3 botões por linha */
+    grid-auto-rows: 55px;                    /* altura fixa dos botões */
+    gap: 5px;                               /* Espaço entre botões */
+    max-height: none;    /* 3 linhas de altura máxima */
+    overflow-y: visible;                       /* Scroll vertical se ultrapassar 3 linhas */
+}
+
+/* Botões dentro do dropdown */
+.category-grid button {
+    width: 150px;
+    padding: 7px 10px;                      /* Padding interno */
+    text-align: center;                      /* Texto centralizado */
+    background-color: #444;                  /* Fundo do botão */
+    color: #fff;                             /* Texto branco */
+    border: none;                            /* Sem borda */
+    border-radius: 4px;                       /* Bordas arredondadas */
+    font-weight: bold;                       /* Negrito */
+    cursor: pointer;                         /* Cursor de mão */
+}
+
+/* Hover nos botões */
+.category-grid button:hover {
+    background-color: #555555;                 /* Fundo mais claro ao passar o mouse */
+}
+
+/* Mostrar dropdown ao clicar */
+.dropdown.show .dropdown-content {
+    display: grid;                         /* Torna visível */
+}
+
+.sub-dropdown {
+  display: none;
+  padding: 0;  /* opcional, só para espaçamento interno */
+  margin-top: 5px;
+  gap: 3px;
+}
+
+.dropdown-content button, .sub-dropdown button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.dropdown-content button:hover, .sub-dropdown button:hover {
+  background-color: #f00;
+}
+
+.dropdown-item {
+  display: flex;
+  flex-direction: column; /* empilha a categoria e a subcategoria verticalmente */
+  gap: 0; /* sem espaço extra entre categoria e subcategoria */
+}
+
+
+        .categoria {
+            margin: 20px;
+        }
+        .categoria h2 {
+            color: #ffffff;
+            border-bottom: 2px solid #f02320;
+            padding-bottom: 5px;
+        }
+        .regra {
+            margin: 15px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-left: 4px solid #949494;
+            line-height: 1.5;
+        }
+        .penalidade {
+            color: #ff0000;
+            display: block;
+            margin-top: 1px;
+        }
+        .indemnizacao {
+            color: #00ff00;
+            display: block;
+            margin-top: 1px;
+        }
+        .hidden { display: none; }
+        footer {
+        text-align: center;
+        padding: 30px;
+        font-size: 12px;
+        color: #aaa;
+        border-top: 1px solid #333;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+    <header>
+        <img src="https://royalrp.pt/logo2.png" alt="Logo do Servidor">
+        <h1>📜Código de Contas SNC📜</h1>
+    </header>
+
+        <div class="search-dropdown-container">
+    <input type="text" id="searchBar" placeholder="🔍 Procurar conta...">
+    <div class="dropdown">
+  <button class="dropdown-btn" onclick="toggleDropdown()">Categorias</button>
+  <div class="dropdown-content" id="meuDropdown">
+
+    <!-- TODAS -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('todas')">TODAS</button>
+    </div>
+
+    <!-- CLASSE 1 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe1')" onclick="toggleSubDropdown('sub1')">CLASSE 1</button>
+      <div class="sub-dropdown" id="sub1">
+      </div>
+    </div>
+    
+    <!-- CLASSE 2 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe2')" onclick="toggleSubDropdown('sub2')">CLASSE 2</button>
+      <div class="sub-dropdown" id="sub2">
+      </div>
+    </div>
+    
+    <!-- CLASSE 3 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe3')" onclick="toggleSubDropdown('sub3')">CLASSE 3</button>
+      <div class="sub-dropdown" id="sub3">
+      </div>
+    </div>
+
+    <!-- CLASSE 4 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe4')" onclick="toggleSubDropdown('sub4')">CLASSE 4</button>
+      <div class="sub-dropdown" id="sub4">
+      </div>
+    </div>
+
+    <!-- CLASSE 5 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe5')" onclick="toggleSubDropdown('sub5')">CLASSE 5</button>
+      <div class="sub-dropdown" id="sub5">
+      </div>
+    </div>
+    
+    <!-- CLASSE 6 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe6')" onclick="toggleSubDropdown('sub6')">CLASSE 6</button>
+      <div class="sub-dropdown" id="sub6">
+      </div>
+    </div>
+
+    <!-- CLASSE 7 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe7')" onclick="toggleSubDropdown('sub7')">CLASSE 7</button>
+      <div class="sub-dropdown" id="sub7">
+      </div>
+    </div>
+
+    <!-- CLASSE 8 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe8')" onclick="toggleSubDropdown('sub8')">CLASSE 8</button>
+      <div class="sub-dropdown" id="sub8">
+      </div>
+    </div>
+
+  </div>
+</div>
+    </div>
+
+    <div class="categoria" data-category="classe1">
+        <h2>1️⃣ CLASSE 1 - Meios Financeiros Líquidos</h2>
+        <div class="regra">
+            <strong>11 ◽ Caixa</strong>
+        </div>
+        <div class="regra">
+            <strong>12 ◽ Depósito à ordem</strong>
+        </div>
+        <div class="regra">
+            <strong>13 ◽ Outros Depósitos Bancários</strong>
+        </div>
+       <div class="regra">
+           <strong>14 ◽ Outros Instrumentos Financeiros</strong>
+        <ul><li>
+           <strong>141</strong> Derivados
+        <ul>
+        <li><strong>1411</strong> Potencialmente Favoráveis</li>
+        <li><strong>1412</strong> Potencialmente Desfavoráveis</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>142</strong> Instrumentos Financeiros detidos para negociação
+        <ul>
+        <li><strong>1421</strong> Ativos Financeiros</li>
+        <li><strong>1422</strong> Passivos Financeiros</li>
+        </ul></li></ul>
+        </div>
+    </div>
+
+    <div class="categoria" data-category="classe2">
+        <h2>2️⃣ CLASSE 2 - Contas a receber e a pagar</h2>
+        <div class="regra">
+            <strong>21 ◽ Clientes</strong>
+        <ul><li>
+           <strong>211</strong> Clientes c/c
+        <ul>
+        <li><strong>2111</strong> Clientes Gerais</li>
+        <li><strong>2112</strong> Clientes - empresa-mãe</li>
+        <li><strong>2113</strong> Clientes - empresas subsidiárias</li>
+        <li><strong>2114</strong> Clientes - empresas associadas</li>
+        <li><strong>2115</strong> Clientes - empreendimentos conjuntos</li>
+        <li><strong>2116</strong> Clientes - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>212</strong> Clientes - títulos a receber
+        <ul>
+        <li><strong>2121</strong> Clientes Gerais</li>
+        <li><strong>2122</strong> Clientes - empresa-mãe</li>
+        <li><strong>2123</strong> Clientes - empresas subsidiárias</li>
+        <li><strong>2124</strong> Clientes - empresas associadas</li>
+        <li><strong>2125</strong> Clientes - empreendimentos conjuntos</li>
+        <li><strong>2126</strong> Clientes - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li><strong>218</strong> Adiantamentos de clientes</li></ul>
+        <ul><li><strong>219</strong> Perdas por imparidade acumulada</li></ul>
+        </div>
+
+       <div class="regra">
+            <strong>22 ◽ Fornecedores</strong>
+        <ul><li>
+           <strong>221</strong> Fornecedores c/c
+        <ul>
+        <li><strong>2211</strong> Fornecedores Gerais</li>
+        <li><strong>2212</strong> Fornecedores - empresa-mãe</li>
+        <li><strong>2213</strong> Fornecedores - empresas subsidiárias</li>
+        <li><strong>2214</strong> Fornecedores - empresas associadas</li>
+        <li><strong>2215</strong> Fornecedores - empreendimentos conjuntos</li>
+        <li><strong>2216</strong> Fornecedores - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>222</strong> Fornecedores - títulos a pagar
+        <ul>
+        <li><strong>2221</strong> Fornecedores Gerais</li>
+        <li><strong>2222</strong> Fornecedores - empresa-mãe</li>
+        <li><strong>2223</strong> Fornecedores - empresas subsidiárias</li>
+        <li><strong>2224</strong> Fornecedores - empresas associadas</li>
+        <li><strong>2225</strong> Fornecedores - empreendimentos conjuntos</li>
+        <li><strong>2226</strong> Fornecedores - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li><strong>225</strong> Faturas em receção e conferência</li></ul>
+        <ul><li><strong>228</strong> Adiantamentos a fornecedores</li></ul>
+        <ul><li><strong>229</strong> Perdas por imparidade acumulada</li></ul>
+        </div>
+        
+    <div class="regra">
+            <strong>23 ◽ Pessoal</strong>
+        <ul><li>
+           <strong>231</strong> Renumerações a pagar
+        <ul>
+        <li><strong>2311</strong> Aos órgãos sociais</li>
+        <li><strong>2312</strong> Ao pessoal</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>232</strong> Adiantamentos
+        <ul>
+        <li><strong>2321</strong> Aos órgãos sociais</li>
+        <li><strong>2322</strong> Ao pessoal</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>237</strong> Cauções
+        <ul>
+        <li><strong>2371</strong> Dos órgãos sociais</li>
+        <li><strong>2372</strong> Do pessoal</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>238</strong> Outras operações
+        <ul>
+        <li><strong>2381</strong> Com órgãos sociais</li>
+        <li><strong>2382</strong> com o pessoal</li>
+        </ul></li></ul>
+        <ul><li><strong>239</strong> Perdas por imparidade acumulada</li></ul>
+    </div>
+</div>
+
+    <div class="categoria" data-category="classe3">
+        <h2>3️⃣ CLASSE 3 - INVENTÁRIOS E ATIVOS BIOLÓGICOS</h2>
+        
+
+
+
+
+    </div>
+
+    <div class="categoria" data-category="classe4">
+        <h2>4️⃣ CLASSE 4 - INVESTIMENTOS</h2>
+        
+
+
+
+    </div>
+
+    <div class="categoria" data-category="classe5">
+        <h2>5️⃣ CLASSE 5 - CAPITAL, RESERVAS E RESULTADOS TRANSITADOS</h2>
+        
+
+
+
+
+
+    </div>
+
+    <div class="categoria" data-category="classe6">
+        <h2>6️⃣ CLASSE 6 - GASTOS</h2>
+        
+
+
+
+    </div>
+
+    <div class="categoria" data-category="classe7">
+        <h2>7️⃣ CLASSE 7 - RENDIMENTOS</h2>
+        
+
+
+
+
+    </div>
+
+    <div class="categoria" data-category="classe8">
+        <h2>8️⃣ CLASSE 8 - RESULTADOS</h2>
+        
+
+
+
+
+
+
+    </div>
+
+    <script>
+let categoriaSelecionada = null; // Estado atual do filtro por botão
+
+function filterCategory(category) {
+    if(category === 'todas') {
+        categoriaSelecionada = null; // remove o filtro de categoria
+    } else {
+        categoriaSelecionada = category; // aplica filtro na categoria selecionada
+    }
+    filtrar(); // chama a função de pesquisa para decidir o que mostrar
+}
+
+// Função filtrar() deve respeitar categoriaSelecionada
+function filtrar() {
+    const searchBar = document.getElementById('searchBar');
+    const termo = searchBar.value.toLowerCase();
+    const categorias = document.querySelectorAll('.categoria');
+
+    categorias.forEach(cat => {
+        const regras = cat.querySelectorAll('.regra');
+        let categoriaTemMatch = false;
+
+        const catData = cat.dataset.category;
+        const categoriaAtiva = !categoriaSelecionada || categoriaSelecionada === catData;
+
+        regras.forEach(regra => {
+            const textoRegra = regra.textContent.toLowerCase();
+            const regraTemMatch = termo === '' ? categoriaAtiva : (textoRegra.includes(termo) && categoriaAtiva);
+
+            if(regraTemMatch){
+                regra.classList.remove('hidden');
+                categoriaTemMatch = true;
+            } else {
+                regra.classList.add('hidden');
+            }
+        });
+
+        if(categoriaTemMatch){
+            cat.classList.remove('hidden');
+        } else {
+            cat.classList.add('hidden');
+        }
+    });
+}
+
+// Atualiza pesquisa em tempo real
+document.getElementById('searchBar').addEventListener('input', filtrar);
+
+// Inicial
+filtrar();
+</script>
+
+<footer>
+    © TB Gestão - Todos os direitos reservados
+
+</footer>
+
+<script>
+function toggleDropdown() {
+  const dropdown = document.getElementById("meuDropdown");
+  dropdown.style.display = (dropdown.style.display === "grid") ? "none" : "grid";
+}
+
+// Mostra ou esconde apenas a subcategoria clicada
+function toggleSubDropdown(id) {
+  // Fecha todas as sub-dropdowns exceto a clicada
+  document.querySelectorAll('.sub-dropdown').forEach(sub => {
+    if(sub.id !== id) {
+      sub.style.display = 'none';
+    }
+  });
+
+  // Alterna a sub-dropdown clicada
+  const sub = document.getElementById(id);
+  sub.style.display = (sub.style.display === "grid") ? "none" : "grid";
+}
+
+// Seleciona subcategoria e fecha dropdown principal
+function selectSubcategory(category) {
+    filterCategory(category); // aplica o filtro
+    const dropdown = document.getElementById("meuDropdown");
+    dropdown.style.display = "none"; // fecha dropdown principal
+    document.querySelectorAll('.sub-dropdown').forEach(sub => sub.style.display = 'none'); // fecha todas sub-dropdowns
+}
+</script>
+
+
+
+<!-- Modal para imagem ampliada -->
+<div id="imagemModal" class="modal" onclick="fecharModal()">
+  <img class="modal-content" id="imgGrande">
+</div>
+
+<script>
+function abrirImagem(src) {
+    const modal = document.getElementById('imagemModal');
+    const img = document.getElementById('imgGrande');
+    img.src = src;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // bloqueia scroll do site
+}
+
+function fecharModal() {
+    const modal = document.getElementById('imagemModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // desbloqueia scroll do site
+}
+</script>
+
+
+</body>
+</html>
         body {
             font-family: Arial, sans-serif;
             background-color: #121212;
