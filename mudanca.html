@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regras Royal RP</title>
+    <link rel="icon" href="https://royalrp.pt/favicon2.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: rgb(255, 255, 255);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            text-align: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+        }
+        header img {
+            max-width: 200px;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #949494;
+            margin: 0;
+        }
+.regra-img {
+        width: 100%;        /* ocupa a largura da regra */
+        max-width: 400px;   /* tamanho máximo */
+        height: auto;       /* mantém proporção */
+        margin-top: 5px;    /* espaço entre texto e imagem */
+        border-radius: 5px; /* cantos arredondados */
+        display: block;     /* garante que fique em linha própria */
+        cursor: pointer; /* indica que é clicável */
+        }
+
+.modal {
+    display: none; /* escondido por padrão */
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center; /* centro horizontal */
+    align-items: center;     /* centro vertical */
+    overflow: none;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    display: block;
+    margin: 10% auto;
+    max-width: 90%;
+    border-radius: 10px;
+}
+
+
+        /* Search Bar */
+#searchBar {
+    width: 300px;                       /* Largura fixa */
+    max-width: 500px;                   /* Largura máxima */
+    padding: 10px;                      /* Padding interno */
+    font-size: 16px;                    /* Tamanho da fonte */
+    border-radius: 5px;                 /* Bordas arredondadas */
+    border: none;                        /* Sem borda */
+    background-color: #333;             /* Fundo da barra */
+    color: #fff;                        /* Texto branco */
+}
+
+#searchBar::placeholder {
+    color: #fff;                        /* Placeholder branco */
+    font-weight: bold;                  /* Placeholder em negrito */
+}
+
+        /* Container da Search + Dropdown */
+.search-dropdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* espaço entre search e dropdown */
+  margin: 20px 0;
+}
+
+/* Dropdown */
+.dropdown {
+    position: relative;                  /* Necessário para o conteúdo absoluto */
+    display: inline-block;               /* Inline para ficar ao lado da search bar */
+}
+
+.dropdown-btn {
+  padding: 10px 15px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px; 
+}
+
+/* Conteúdo do dropdown */
+.dropdown-content {
+  display: none;        /* escondido inicialmente */
+  position: absolute;
+  top: 0;
+  left: 100%;           /* abre à direita do botão */
+  margin-left: 10px;    /* espaço entre botão e conteúdo */
+  background-color: #333;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 999;
+  grid-template-columns: repeat(6, auto); /* 3 colunas */
+  gap: 5px; /* espaço entre botões */
+}
+
+/* Botões do dropdown */
+.dropdown-content button {
+  padding: 5px 10px;
+  background-color: #444444;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Grade dos botões do dropdown */
+.category-grid {
+    display: grid;                        
+    grid-template-columns: repeat(4, 1fr); /* 3 botões por linha */
+    grid-auto-rows: 55px;                    /* altura fixa dos botões */
+    gap: 5px;                               /* Espaço entre botões */
+    max-height: none;    /* 3 linhas de altura máxima */
+    overflow-y: visible;                       /* Scroll vertical se ultrapassar 3 linhas */
+}
+
+/* Botões dentro do dropdown */
+.category-grid button {
+    width: 150px;
+    padding: 7px 10px;                      /* Padding interno */
+    text-align: center;                      /* Texto centralizado */
+    background-color: #444;                  /* Fundo do botão */
+    color: #fff;                             /* Texto branco */
+    border: none;                            /* Sem borda */
+    border-radius: 4px;                       /* Bordas arredondadas */
+    font-weight: bold;                       /* Negrito */
+    cursor: pointer;                         /* Cursor de mão */
+}
+
+/* Hover nos botões */
+.category-grid button:hover {
+    background-color: #555555;                 /* Fundo mais claro ao passar o mouse */
+}
+
+/* Mostrar dropdown ao clicar */
+.dropdown.show .dropdown-content {
+    display: grid;                         /* Torna visível */
+}
+
+.sub-dropdown {
+  display: none;
+  padding: 0;  /* opcional, só para espaçamento interno */
+  margin-top: 5px;
+  gap: 3px;
+}
+
+.dropdown-content button, .sub-dropdown button {
+  background-color: #555;
+  color: white;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.dropdown-content button:hover, .sub-dropdown button:hover {
+  background-color: #f00;
+}
+
+.dropdown-item {
+  display: flex;
+  flex-direction: column; /* empilha a categoria e a subcategoria verticalmente */
+  gap: 0; /* sem espaço extra entre categoria e subcategoria */
+}
+
+
+        .categoria {
+            margin: 20px;
+        }
+        .categoria h2 {
+            color: #ffffff;
+            border-bottom: 2px solid #f02320;
+            padding-bottom: 5px;
+        }
+        .regra {
+            margin: 15px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border-left: 4px solid #949494;
+            line-height: 1.5;
+        }
+        .penalidade {
+            color: #ff0000;
+            display: block;
+            margin-top: 1px;
+        }
+        .indemnizacao {
+            color: #00ff00;
+            display: block;
+            margin-top: 1px;
+        }
+        .hidden { display: none; }
+        footer {
+        text-align: center;
+        padding: 30px;
+        font-size: 12px;
+        color: #aaa;
+        border-top: 1px solid #333;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+    <header>
+        <img src="https://royalrp.pt/logo2.png" alt="Logo do Servidor">
+        <h1>📜Código de Contas SNC📜</h1>
+    </header>
+
+        <div class="search-dropdown-container">
+    <input type="text" id="searchBar" placeholder="🔍 Procurar conta...">
+    <div class="dropdown">
+  <button class="dropdown-btn" onclick="toggleDropdown()">Categorias</button>
+  <div class="dropdown-content" id="meuDropdown">
+
+    <!-- TODAS -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('todas')">TODAS</button>
+    </div>
+
+    <!-- CLASSE 1 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe1')" onclick="toggleSubDropdown('sub1')">CLASSE 1</button>
+      <div class="sub-dropdown" id="sub1">
+      </div>
+    </div>
+    
+    <!-- CLASSE 2 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe2')" onclick="toggleSubDropdown('sub2')">CLASSE 2</button>
+      <div class="sub-dropdown" id="sub2">
+      </div>
+    </div>
+    
+    <!-- CLASSE 3 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe3')" onclick="toggleSubDropdown('sub3')">CLASSE 3</button>
+      <div class="sub-dropdown" id="sub3">
+      </div>
+    </div>
+
+    <!-- CLASSE 4 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe4')" onclick="toggleSubDropdown('sub4')">CLASSE 4</button>
+      <div class="sub-dropdown" id="sub4">
+      </div>
+    </div>
+
+    <!-- CLASSE 5 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe5')" onclick="toggleSubDropdown('sub5')">CLASSE 5</button>
+      <div class="sub-dropdown" id="sub5">
+      </div>
+    </div>
+    
+    <!-- CLASSE 6 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe6')" onclick="toggleSubDropdown('sub6')">CLASSE 6</button>
+      <div class="sub-dropdown" id="sub6">
+      </div>
+    </div>
+
+    <!-- CLASSE 7 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe7')" onclick="toggleSubDropdown('sub7')">CLASSE 7</button>
+      <div class="sub-dropdown" id="sub7">
+      </div>
+    </div>
+
+    <!-- CLASSE 8 -->
+    <div class="dropdown-item">
+      <button class="category-btn" onclick="selectSubcategory('classe8')" onclick="toggleSubDropdown('sub8')">CLASSE 8</button>
+      <div class="sub-dropdown" id="sub8">
+      </div>
+    </div>
+
+  </div>
+</div>
+    </div>
+
+    <div class="categoria" data-category="classe1">
+        <h2>1️⃣ CLASSE 1 - Meios Financeiros Líquidos</h2>
+        <div class="regra">
+            <strong>11 ◽ Caixa</strong>
+        </div>
+        <div class="regra">
+            <strong>12 ◽ Depósito à ordem</strong>
+        </div>
+        <div class="regra">
+            <strong>13 ◽ Outros Depósitos Bancários</strong>
+        </div>
+       <div class="regra">
+           <strong>14 ◽ Outros Instrumentos Financeiros</strong>
+        <ul><li>
+           <strong>141</strong> Derivados
+        <ul>
+        <li><strong>1411</strong> Potencialmente Favoráveis</li>
+        <li><strong>1412</strong> Potencialmente Desfavoráveis</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>142</strong> Instrumentos Financeiros detidos para negociação
+        <ul>
+        <li><strong>1421</strong> Ativos Financeiros</li>
+        <li><strong>1422</strong> Passivos Financeiros</li>
+        </ul></li></ul>
+        </div>
+    </div>
+
+    <div class="categoria" data-category="classe2">
+        <h2>2️⃣ CLASSE 2 - Contas a receber e a pagar</h2>
+        <div class="regra">
+            <strong>21 ◽ Clientes</strong>
+        <ul><li>
+           <strong>211</strong> Clientes c/c
+        <ul>
+        <li><strong>2111</strong> Clientes Gerais</li>
+        <li><strong>2112</strong> Clientes - empresa-mãe</li>
+        <li><strong>2113</strong> Clientes - empresas subsidiárias</li>
+        <li><strong>2114</strong> Clientes - empresas associadas</li>
+        <li><strong>2115</strong> Clientes - empreendimentos conjuntos</li>
+        <li><strong>2116</strong> Clientes - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>212</strong> Clientes - títulos a receber
+        <ul>
+        <li><strong>2121</strong> Clientes Gerais</li>
+        <li><strong>2122</strong> Clientes - empresa-mãe</li>
+        <li><strong>2123</strong> Clientes - empresas subsidiárias</li>
+        <li><strong>2124</strong> Clientes - empresas associadas</li>
+        <li><strong>2125</strong> Clientes - empreendimentos conjuntos</li>
+        <li><strong>2126</strong> Clientes - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li><strong>218</strong> Adiantamentos de clientes</li></ul>
+        <ul><li><strong>219</strong> Perdas por imparidade acumulada</li></ul>
+        </div>
+       <div class="regra">
+            <strong>22 ◽ Fornecedores</strong>
+        <ul><li>
+           <strong>221</strong> Fornecedores c/c
+        <ul>
+        <li><strong>2211</strong> Fornecedores Gerais</li>
+        <li><strong>2212</strong> Fornecedores - empresa-mãe</li>
+        <li><strong>2213</strong> Fornecedores - empresas subsidiárias</li>
+        <li><strong>2214</strong> Fornecedores - empresas associadas</li>
+        <li><strong>2215</strong> Fornecedores - empreendimentos conjuntos</li>
+        <li><strong>2216</strong> Fornecedores - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li>
+           <strong>222</strong> Fornecedores - títulos a pagar
+        <ul>
+        <li><strong>2221</strong> Fornecedores Gerais</li>
+        <li><strong>2222</strong> Fornecedores - empresa-mãe</li>
+        <li><strong>2223</strong> Fornecedores - empresas subsidiárias</li>
+        <li><strong>2224</strong> Fornecedores - empresas associadas</li>
+        <li><strong>2225</strong> Fornecedores - empreendimentos conjuntos</li>
+        <li><strong>2226</strong> Fornecedores - outras partes relacionadas</li>
+        </ul></li></ul>
+        <ul><li><strong>225</strong> Faturas em receção e conferência</li></ul>
+        <ul><li><strong>228</strong> Adiantamentos a fornecedores</li></ul>
+        <ul><li><strong>229</strong> Perdas por imparidade acumulada</li></ul>
+        </div>
+        
+    </div>
+
+    <div class="categoria" data-category="gerais">
+        <h2>CONTA 3</h2>
+        <div class="regra">
+            <strong>1 ◽ Proibido qualquer tipo de metagaming, ou seja, utilizar conhecimentos obtidos OOC para obter vantagem IC</strong>
+            <span class="penalidade"><strong>-750sc + 60 dias de aviso</span></strong>
+            <li><strong>a)</strong> Abre se a exepção de negócios, orgs e empresas podem aceitar encomendas, fazer candidaturas no seu discord.</li>
+        </div>
+        <div class="regra">
+            <strong>2 ◽ Obrigatório o uso do FEAR RP.</strong>
+            <span class="penalidade"><strong>- 350sc</strong></span>
+            <li><strong>a)</strong> Caso um ou mais membros se encontrar fechado num edificio sem saida (saida bloqueada por a outra equipa) estes players são obrigados a render-se.</li>
+            <li><strong>b)</strong> Em casos extremos pode se aplicar o Kamikase
+            <span class="penalidade"><strong>- 500sc + 3d WLB + limpeza XP</strong></span></li>
+            <li><strong>c)</strong> Em caso de organizações, o nofear ao membro da organização é obrigatório, resultando num possivel Pk senão for cumprido.
+            <span class="penalidade"><strong>- 500sc (falta de fear ao membro da org)</strong></span></li>
+        </div>
+        <div class="regra">
+            <strong>3 ◽ Um jogador não pode ser reconhecido após morto a tiro ou através de qualquer outra forma de PK, no entanto, se o jogador apenas tiver ficado inconsciente o mesmo poderá ainda ser identificado, esquecendo-se no entanto do que passou.</strong>
+            <span class="penalidade"><strong>- 150sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>4 ◽ Estritamente proibido forçar um jogador a dar-vos ou vender-vos uma arma. A única forma é com tentativa de compra que o alvo do RP tem sempre o direito de recusar.</strong>
+            <span class="penalidade"><strong>- 200sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>5 ◽ Proibido enganar jogadores em negócios inteiramente legais.</strong>
+            <br><strong>Devem ter clip para comprovar a legalidade/ilegalidade do negócio.</strong>
+            <li><strong>a)</strong> É permitido enganar em negócios que envolvam materiais ilegais. [Consultar manual do servidor] 
+            <li><strong>b)</strong> Não se consideram ilegais veículos que possuam alterações ilegais como vidros fumados, néon, fumo de pneus, ou repro etc.
+        </div>
+        <div class="regra">
+            <strong>6 ◽ VDM propositado</strong>
+            <li><strong>a)</strong> incluído o pontapé da mota</li>
+            <span class="penalidade"><strong>- 400sc ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 200 000 </strong></span>
+        </div>
+        <div class="regra">
+            <strong>7 ◽ Proibido falar fora de RP dentro do servidor, apenas saindo de RP na presença de um staff.</strong>
+            <li><strong>a)</strong> Comunitário inclusive.</li>
+            <span class="penalidade"><strong>- 200sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>8 ◽ Proibido o RDM jogadores que não sejam ameaça não devem ser mortos sem razão pertinente.</strong>
+            <li><strong>a)</strong> No Fears não incluídos nesta regra</li>
+            <li><strong>b)</strong> Matar um player ao soco, contra uma arma de fogo</li>
+            <li><strong>c)</strong> Proibido matar para esconder a identidade.</li>
+            <span class="penalidade"><strong>- 400sc (NÃO PODEM PAGAR, APENAS LEVAM COMUNITÁRIOS)</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 200 000 (PARA O PLAYER QUE SOFREU)</strong></span>
+        </div>
+        <div class="regra">
+            <strong>9 ◽ Obrigatório ter um documento de identificação sempre na sua posse.</strong>
+            <span class="penalidade"><strong>- 300sc  ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 200 000</strong></span>
+        </div>
+        <div class="regra">
+            <strong>10 ◽ RP de escravatura não é permitido.</strong>
+            <span class="penalidade"><strong>- 300sc</strong></span>
+            <li><strong>a)</strong> Todo o trabalho forçado tem de ser renumerado ( Pode ser a baixo do comum ).</li>
+            <li><strong>b)</strong> Proibido por parte de qualquer organização obrigar um conjunto de trabalhadores a trabalhar sem renumeração num spot de droga.</li>
+            <li><strong>c)</strong> Caso haja informações suficiente para render uma organização em troca de favores, isso não é considerado rp de escravatura, desde que o numero de favores não seja disparatado ou irrealista.</li>
+        </div>
+        <div class="regra">
+            <strong>11 ◽ Trabalhadores legais, fora das safes, devidamente identificados com a sua farda e carro de trabalho não podem ser roubados.</strong>
+            <span class="penalidade"><strong>- 300sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>12 ◽ Proibido ao condutor disparar em andamento. [Pode disparar enquanto parado]</strong>
+            <span class="penalidade"><strong>- 250sc  ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 100 000</strong></span>
+        </div>
+        <div class="regra">
+            <strong>13 ◽ Proibido uso de emotes/ragdoll/binds durante fights/ redzones.</strong>
+            <span class="penalidade"><strong>- 500sc</strong></span>
+            <li><strong>a)</strong> Proibido o bug de fast-reload das mosquete.</li>
+        </div>
+        <div class="regra">
+            <strong>14 ◽ Proibido uso de capacetes ( GOE e GIOE  - Proibido multar por falta de capacete )</strong>
+            <span class="penalidade"><strong>- 300sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>15 ◽ Proibido disparar de dentro da mulle</strong>
+            <li><strong>a)</strong> Proibido o uso de carros e motas blindados em rp agressivo (por ex. P1 Yamaha1700)</li>
+            <span class="penalidade"><strong>- 250sc  ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 100 000</strong></span>
+        </div>
+        <div class="regra">
+            <strong>17 ◽ Proibido qualquer player se fazer passar por qualquer membro de uma organização (gang, oficina, mafia, favela, policia, lsms, etc)</strong>
+            <span class="penalidade"><strong>- 250sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>18 ◽ Combatlog, é considerado combatlog qualquer player que saia e não volte a entrar, mesmo que seja por crash.</strong>
+            <span class="penalidade"><strong>- 400sc</strong></span>
+            <li><strong>a)</strong> A meio de rp de detenção das forças policias, seja dentro da cela, dentro de veiculos ou completamente rendido pelas forças policiais.</li>
+            <li><strong>b)</strong> A meio de rp de refém de assalto, seja dentro da banco/joelharia, dentro de veículos ou completamente rendido.</li>
+            <span class="penalidade"><strong>- 400sc  ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 200 000</strong></span>
+            <li><strong>c)</strong> Morto durante sem ter sido revistado</li>
+            <span class="penalidade"><strong>- 350sc  ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 200 000</strong></span>
+        </div>
+        <div class="regra">
+            <strong>19 ◽ Organizações Oficiais não podem usar snipers contra outra organizações.</strong>
+            <span class="penalidade"><strong>- 500sc</strong></span>
+            <li><strong>a)</strong> No entanto, pode ser usado contra forças policias caso seja necessário num Roleplay elaborado. </li>
+        </div>
+        <div class="regra">
+            <strong>20 ◽ Violação regras de New Life Rulle</strong>
+            <span class="penalidade"><strong>- 250sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>21 ◽ Proibido o uso de arbustos em rps agressivos</strong>
+            <span class="penalidade"><strong>- 250sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>22 ◽ Após abordagem o player abordado NÃO pode guardar nada no veiculo</strong>
+            <span class="penalidade"><strong>- 300sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>23 ◽ Tempo máximo para ter um player rendido é uma hora (exepto assaltos a bancos/lojas)</strong>
+            <span class="penalidade"><strong>- 200sc</strong></span>
+            <li><strong>a)</strong> Podem pedir no máximo 300k por player rendido. Forças Policiais estão proibidadas de pagar qualquer valor por refens.</li>
+        </div>
+        <div class="regra">
+            <strong>24 ◽ Proibido rebentar bombas/caixas explosivas para matar pessoas da equipa contrária.</strong>
+            <span class="penalidade"><strong>- 150Sc + Devolver itens à equipa lesada</strong></span>
+        </div>
+    </div>
+
+    <div class="categoria" data-category="abordagem">
+        <h2>CONTA 4</h2>
+        <div class="regra">
+            <strong>1 ◽ Após abordagem o player abordado NÃO pode guardar nada no veiculo</strong>
+            <span class="penalidade"><strong>- 300Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>2 ◽ Numa abordagem de TRANSITO NORMAL os players abordados só podem disparar para as forças policiais depois destas dispararem</strong>
+            <li><strong>a)</strong> A policia apenas pode disparar para pneus ou veiculos com intenção de imobilizar e nunca matar</li>
+            <li><strong>b)</strong> Abordar um grupo de bairro/mafia/favela ou elementos mascarados NÃO É CONSIDERADO abordagem de transito</li>
+            <span class="penalidade"><strong>- 300Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>🔹 Zona sul do mapa [ 🏢 Dentro da cidade 🏢]</strong><br><br>
+            <strong>1 ◽ Completamente proibido abordagens de estrada.</strong>
+            <span class="penalidade"><strong>- 500Sc</strong></span>
+            <li><strong>a)</strong> Exepto Rps elaborados ( invasões a bairros, bases etc)</li>
+            <li><strong>b)</strong> Exepto abordagens/perseguições que começam fora da zona cinzenta </li>
+            <strong>Esta regra não se aplica a redzones dentro da zona cinzenta. E caso o player tenha sido visto a sair da redzone pode ser abordado e roubado.</strong><br><br>
+            <strong>2 ◽ Completamente proibido assaltar players na zona cinzenta. Exepto Redzones e bases de GANGS</strong>
+            <span class="penalidade"><strong>- 500Sc</strong></span>
+            <li><strong>a)</strong> Nas bases da sua EMPRESA a Gang dominadora pode roubar player</li>
+            <li><strong>b)</strong> Podem raptar para refens mas nunca os roubar </li>
+            </div>
+            <div class="regra">
+            <strong>🔸 Zona norte do mapa [🌵 Fora da cidade 🌵] </strong><br><br>
+            <strong>1 ◽ Na zona norte da cidade não existe restrição de horários para abordagens ou roubos</strong><br>
+            <strong>2 ◽ A abordagem mínima deve ser a verbal [À exceção das red zones.]</strong>
+            <span class="penalidade"><strong>- 300Sc</strong></span>
+            <strong>3 ◽ Não é necessário um numero mínimo de policias, para assaltos ou abordagens, fora da cidade.</strong>
+            </div>
+    </div>
+
+    <div class="categoria" data-category="assaltos">
+        <h2>CONTA 5</h2>
+        <div class="regra">
+            <strong>1 ◽ Só pode ocorrer um assalto a cada 3h, pode-se verificar a disponibilidade de realizar um assalto com o comando /estadoassaltobanco e /estadoassaltoloja. Para realizar assalto ao banco principal e lojas são necessários 6 polícias de serviço e 2 polícias de serviço para multibancos.</strong>
+        </div>
+        <div class="regra">
+            <strong>2 ◽ Maximo de assaltantes é de 8 players</strong>
+        </div>
+        <div class="regra">
+            <strong>3 ◽ Obrigatório utilizar um mínimo de 2 reféns, não existindo número máximo. [ Cada refém dá direito a uma exigência que pode ou não ser cumprida mediante o RP. ]</strong>
+            <span class="penalidade"><strong>- 150Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>4 ◽ Proibido utilizar reféns falsos.</strong>
+            <span class="penalidade"><strong>- 150Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>5 ◽ A negociação é de carácter obrigatório.<br>- Relembramos que negociação é uma moeda de troca entre duas factions. É imperativo o no fear futuro do que pode acontecer para ambas. </strong>
+        </div>
+        <div class="regra">
+            <strong>6 ◽ É proibido o PVP sem razão nas fases anteriores à perseguição, isto significa que salvo exceções elaboradas se deve tentar realizar uma negociação limpa.<br>- Proibido matar os negociadores nestas mesmas fases.</strong>
+            <span class="penalidade"><strong>- 500Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>8 ◽ Proibido inicio de um assalto a um banco/loja/casas/iate/multibanco/joalharia/etc. a 30 minutos de um RR programado.</strong>
+            <span class="penalidade"><strong>- 150Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>9 ◽ Proibido assaltar civis a 5 minutos para o RR .Salvo o RP tenha eventualmente muito antes desses 5 minutos. Exepto Redzones</strong>
+            <span class="penalidade"><strong>- 150Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>11 ◽ Passa a ser permitido ter elementos fora dos assalto (até ao máximo de 8) mas os assaltantes têm de informar as forças polícias que eles existem</strong>
+            <span class="penalidade"><strong>- 150Sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>12 ◽ Os assaltantes não podem pedir nenhum valor seja por policiais seja por civis, apenas podem negociar maneiras de escapar.</strong>
+        </div>
+        <div class="regra">
+            <strong>13 ◽ Apenas em assaltos elaborados: Bancos, Joalheria, e Lojas, as regras de orgs não se aplicam, ou seja:<br>- Não precisam de estar identificados<br> - Podem agir com outras orgs ou civis (até o máximo de 12)</strong>
+        </div>
+    </div>
+
+    <div class="categoria" data-category="powergaming">
+        <h2>CONTA 6</h2>
+        <div class="regra">
+            <strong>1 ◽ Proibido uso de /me para ações impossíveis, como "/me abrir janela fechada" ou "/me tirar balas da arma"</strong>
+            <li><strong>a)</strong> Não utilizar /me quando estás Morto</li>
+            <li><strong>b)</strong> Proibido /me para alterações de cenário.</li>
+            <span class="penalidade"><strong>- 150sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>2 ◽ Abuso de choques/batimentos de carros (rocketleague/carrinhos de choque)</strong>
+            <span class="penalidade"><strong>- 200sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>3 ◽ Motas de pista e carros desportivos podem andar em estradas de terra mas não em zona montanhosa sem estrada.</strong>
+            <li><strong>a)</strong> Permitido pequenos saltos com esses veículos nas mesmas estradas.</li>
+            <li><strong>b)</strong> Não existe limite de velocidade permitida nessas mesmas zonas.</li>
+            <li><strong>c)</strong> Carros como Offroad/JEEPS/MotasCross podem andar e fazer saltos maiores ou mesmo mortais em montes.</li>
+            <span class="penalidade"><strong>- 150sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>4 ◽ É permitido andar com Pneus furados se ainda tiver pneu. Caso não exista pneu, e fique apenas a Jante, é proibido usar o veiculo.</strong>
+            <span class="penalidade"><strong>- 250sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>5 ◽ A capacidade máxima permitida de utilizadores em cada veiculo é a possibilidade de sentar no mesmo. Nunca podendo usar o /carregar ou /me colocar na mala para poder transportar mais pessoas do que o permitido.</strong>
+            <li><strong>a)</strong> Não carregar pessoas nas motas, mesmo que o veiculo permita ter mais um passageiro.</li>
+            <span class="penalidade"><strong>- 250sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>6 ◽ Proibido usar o pontapé da mota, ou o mata-leão</strong>
+            <span class="penalidade"><strong>- 400sc  ou pagar a indeminização</strong></span>
+            <span class="indemnizacao"><strong>+ indeminização de 400 000</strong></span>
+        </div>
+    <div class="regra">
+            <strong>7 ◽ Andar ou colocar veiculos em zonas que não fazem sentido real</strong>
+            <li><strong>a)</strong> Por ex. Motas e carros em cima de contentores, predios, tendas ou roulotes</li>
+            <li><strong>b)</strong> Por ex. Andar em cima de tendas ou lonas de estufas</li>
+            <li><strong>c)</strong> Proibido colocar motas a trancar/abrir portas</li>
+            <span class="penalidade"><strong>- 250sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>8 ◽ Abuso de mecanicas, uso abusivo do menu f6 ou do /pegar.</strong>
+            <li><strong>a)</strong> Cancelar o rolas</li>
+            <li><strong>b)</strong> Passar por paredes, ou disparar pelas paredes</li>
+            <span class="penalidade"><strong>- 400sc</strong></span>
+        </div>
+    </div>
+
+    <div class="categoria" data-category="whitelist">
+        <h2>CONTA 7</h2>
+        <div class="regra">
+            <strong>1 ◽ A todos os jogadores com JOB WHITELIST neste servidor, não poderão ter TAG de JOB WHITELIST noutro servidor.</strong>
+            <span class="penalidade"><strong>- PUNIÇÃO DE BAN até uma tag seja retirada</strong></span>
+            <li><strong>a)</strong> No entanto não estão impedidos de experimentar outro servidor, apenas para RP's ocasionais.</li>
+        </div>
+        <div class="regra">
+            <strong>2 ◽ Durante o whitelist block és considerado um civil e NÃO podes agir em conjunto com uma organização, nem atuar nas zonas destas. (Vendas,crafts,etc)</strong>
+            <li><strong>a)</strong> Exepto moradores das Gangs, que podem ir com a Gang aos Spots da cidade</li>
+            <span class="penalidade"><strong>- 800sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>3 ◽ Não poderão ser dadas TAG's ingame, até ter sido dada as  TAG'S no discord primeiro.</strong>
+            <span class="penalidade"><strong>- Punição de 10 dias de WHITELISTBLOCK</strong></span>
+        </div>
+    </div>
+
+    <div class="categoria" data-category="heli">
+        <h2>CONTA 8</h2>
+        <div class="regra">
+            <strong>1 ◽ Proibido disparar do helicóptero, salvo para outro helicóptero, caso exista PVP entre os grupos. [Ou seja, helicóptero A pode disparar para helicóptero B caso exista PVP iniciado entre equipa de A e de B no chão.]</strong>
+            <span class="penalidade"><strong>- 500sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>2 ◽ Proibido utilizar o helicóptero como forma de baixar a influência evitando o PVP.</strong>
+            <span class="penalidade"><strong>- 500sc</strong></span>
+        </div>
+        <div class="regra">
+            <strong>3 ◽ É totalmente permitido a membros dentro de uma red zone disparar contra qualquer helicóptero que entre DIRETAMENTE no espaço aéreo da zona. O Helicóptero NÃO dá cooldown ao resto da equipa caso passe a dar scout</strong>
+        </div>
+        <div class="regra">
+            <strong>4 ◽ Permitido pousar o Heli numa Redzone antes ou durante a fight!</strong>
+            <li><strong>a)</strong> Permitido usar o paraquedas em fights e redzones!</li>
+            <li><strong>b)</strong> Permitido usar o helicóptero para rotações.</li>
+        </div>
+        <div class="regra">
+            <strong>5 ◽ Proibido pousar o heli na zona cinzenta do mapa fora dos helipads.</strong>
+            <li><strong>a)</strong> No restante mapa pode se pousar o heli em espaços abertos.</li>
+            <span class="penalidade"><strong>- 200sc</strong></span>
+        </div>
+    </div>
+
+    <script>
+let categoriaSelecionada = null; // Estado atual do filtro por botão
+
+function filterCategory(category) {
+    if(category === 'todas') {
+        categoriaSelecionada = null; // remove o filtro de categoria
+    } else {
+        categoriaSelecionada = category; // aplica filtro na categoria selecionada
+    }
+    filtrar(); // chama a função de pesquisa para decidir o que mostrar
+}
+
+// Função filtrar() deve respeitar categoriaSelecionada
+function filtrar() {
+    const searchBar = document.getElementById('searchBar');
+    const termo = searchBar.value.toLowerCase();
+    const categorias = document.querySelectorAll('.categoria');
+
+    categorias.forEach(cat => {
+        const regras = cat.querySelectorAll('.regra');
+        let categoriaTemMatch = false;
+
+        const catData = cat.dataset.category;
+        const categoriaAtiva = !categoriaSelecionada || categoriaSelecionada === catData;
+
+        regras.forEach(regra => {
+            const textoRegra = regra.textContent.toLowerCase();
+            const regraTemMatch = termo === '' ? categoriaAtiva : (textoRegra.includes(termo) && categoriaAtiva);
+
+            if(regraTemMatch){
+                regra.classList.remove('hidden');
+                categoriaTemMatch = true;
+            } else {
+                regra.classList.add('hidden');
+            }
+        });
+
+        if(categoriaTemMatch){
+            cat.classList.remove('hidden');
+        } else {
+            cat.classList.add('hidden');
+        }
+    });
+}
+
+// Atualiza pesquisa em tempo real
+document.getElementById('searchBar').addEventListener('input', filtrar);
+
+// Inicial
+filtrar();
+</script>
+
+<footer>
+    © TB Gestão - Todos os direitos reservados
+
+</footer>
+
+<script>
+function toggleDropdown() {
+  const dropdown = document.getElementById("meuDropdown");
+  dropdown.style.display = (dropdown.style.display === "grid") ? "none" : "grid";
+}
+
+// Mostra ou esconde apenas a subcategoria clicada
+function toggleSubDropdown(id) {
+  // Fecha todas as sub-dropdowns exceto a clicada
+  document.querySelectorAll('.sub-dropdown').forEach(sub => {
+    if(sub.id !== id) {
+      sub.style.display = 'none';
+    }
+  });
+
+  // Alterna a sub-dropdown clicada
+  const sub = document.getElementById(id);
+  sub.style.display = (sub.style.display === "grid") ? "none" : "grid";
+}
+
+// Seleciona subcategoria e fecha dropdown principal
+function selectSubcategory(category) {
+    filterCategory(category); // aplica o filtro
+    const dropdown = document.getElementById("meuDropdown");
+    dropdown.style.display = "none"; // fecha dropdown principal
+    document.querySelectorAll('.sub-dropdown').forEach(sub => sub.style.display = 'none'); // fecha todas sub-dropdowns
+}
+</script>
+
+
+
+<!-- Modal para imagem ampliada -->
+<div id="imagemModal" class="modal" onclick="fecharModal()">
+  <img class="modal-content" id="imgGrande">
+</div>
+
+<script>
+function abrirImagem(src) {
+    const modal = document.getElementById('imagemModal');
+    const img = document.getElementById('imgGrande');
+    img.src = src;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // bloqueia scroll do site
+}
+
+function fecharModal() {
+    const modal = document.getElementById('imagemModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto'; // desbloqueia scroll do site
+}
+</script>
+
+
+</body>
+</html>
