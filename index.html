@@ -197,22 +197,38 @@
             padding-bottom: 5px;
         }
         .regra {
-            margin: 15px;
-            padding: 10px;
-            background-color: #1e1e1e;
-            border-left: 4px solid #949494;
-            line-height: 1.5;
-        }
-        .penalidade {
-            color: #ff0000;
-            display: block;
-            margin-top: 1px;
-        }
-        .indemnizacao {
-            color: #00ff00;
-            display: block;
-            margin-top: 1px;
-        }
+    margin: 15px;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border-left: 4px solid #949494;
+    line-height: 1.5;
+}
+
+/* 🔹 Texto principal (ex: "22 ◽ Fornecedores") */
+.regra > strong {
+    font-size: 18px;
+    color: #fff;
+}
+
+/* 🔹 Nível 1 — li diretamente dentro da .regra */
+.regra > ul > li {
+    font-size: 17px;
+    margin-top: 10px;
+}
+
+/* 🔹 Nível 2 — li dentro de outro ul */
+.regra ul ul > li {
+    font-size: 16px;
+    margin-left: 20px;
+}
+
+/* 🔹 Nível 3 — li dentro de 2 ul (subsubcontas) */
+.regra ul ul ul > li {
+    font-size: 15px;
+    margin-left: 40px;
+}
+
+        
         .hidden { display: none; }
         footer {
         text-align: center;
@@ -413,11 +429,66 @@
         </ul></li></ul>
         <ul><li><strong>239</strong> Perdas por imparidade acumulada</li></ul>
     </div>
+
+    <div class="regra">
+            <strong>24 ◽ Estado e outros entes públicos</strong>
+            <ul><li><strong>241</strong> Imposto sobre rendimento</li></ul>
+            <ul><li><strong>242</strong> Retenção de impostos sobre o rendimento</li></ul>
+        <ul><li>
+           <strong>243</strong> Imposto sobre o valor acrescentado (IVA)
+        <ul>
+        <li><strong>2431</strong> IVA- Suportado</li>
+        <li><strong>2432</strong> IVA - Dedutível</li>
+        <li><strong>2433</strong> IVA - Liquidado</li>
+        <li><strong>2434</strong> IVA - Regularizações</li>
+        <li><strong>2435</strong> IVA - Apuramento</li>
+        <li><strong>2436</strong> IVA - A pagar</li>
+        <li><strong>2437</strong> IVA - A recuperar</li>
+        <li><strong>2438</strong> IVA - Reembolsos pedidos</li>
+        <li><strong>2439</strong> IVA - Liquidações oficiosas</li>
+        </ul></li></ul>
+        <ul><li><strong>244</strong> Outros Impostos</li></ul>
+        <ul><li><strong>245</strong> Contribuições para a Segurança Social</li></ul>
+        <ul><li><strong>246</strong> Tributos das autarquias locais</li></ul>
+        <ul><li><strong>248</strong> Outras Tributações</li></ul>
+    </div>
+
+    <div class="regra">
+            <strong>25 ◽ Financiamentos Obtidos</strong>
+            <ul><li><strong>251</strong> Instituições de crédito e sociedades financeiras
+        <ul><li><strong>2431</strong> IVA- Suportado</li>
+        <li><strong>2511</strong> Empréstimos Bancários</li>
+        <li><strong>2512</strong> Descobertos Bancários</li>
+        <li><strong>2513</strong> Locações Financeiras</li></ul>
+        </li></ul>
+        <ul><li><strong>252</strong> Mercado de valores mobiliário
+        <ul><li><strong>2431</strong> Empréstimos por obrigações</li></ul>
+        </li></ul>
+        <ul><li><strong>253</strong> Participantes de capital
+        <ul><li><strong>2531</strong> Empresa-mãe - Suprimentos e outros mútuos</li>
+        <li><strong>2532</strong> Outros participantes - Suprimentos e outros mútuos</li></ul>
+        </li></ul>
+        <ul><li><strong>254</strong> Subsidiárias, associadas e empreendimentos conjuntos</li></ul>
+        <ul><li><strong>258</strong> Outros financiadores</li></ul>
+    </div>
+
+    <div class="regra">
+            <strong>25 ◽ Acionistas / Sócios</strong>
+            <ul><li><strong>261</strong> Acionistas c/ subscrição</li></ul>
+            <ul><li><strong>262</strong> Quotas não liberadas</li></ul>
+            <ul><li><strong>263</strong> Adiantamentos por conta de lucros</li></ul>
+            <ul><li><strong>264</strong> Resultados Atribuídos</li></ul>
+            <ul><li><strong>265</strong> Lucros Disponíveis</li></ul>
+            <ul><li><strong>266</strong> Empréstimos concedidos - empresa-mãe</li></ul>
+            <ul><li><strong>268</strong> Outras operações</li></ul>
+            <ul><li><strong>269</strong> Perdas por imparidade acumuladas</li></ul>
+    </div>
 </div>
 
     <div class="categoria" data-category="classe3">
         <h2>3️⃣ CLASSE 3 - INVENTÁRIOS E ATIVOS BIOLÓGICOS</h2>
-        
+        <div class="regra">
+        </div>
 
 
 
@@ -426,7 +497,8 @@
 
     <div class="categoria" data-category="classe4">
         <h2>4️⃣ CLASSE 4 - INVESTIMENTOS</h2>
-        
+         <div class="regra">
+        </div>
 
 
 
@@ -434,7 +506,8 @@
 
     <div class="categoria" data-category="classe5">
         <h2>5️⃣ CLASSE 5 - CAPITAL, RESERVAS E RESULTADOS TRANSITADOS</h2>
-        
+         <div class="regra">
+        </div>
 
 
 
@@ -444,7 +517,8 @@
 
     <div class="categoria" data-category="classe6">
         <h2>6️⃣ CLASSE 6 - GASTOS</h2>
-        
+         <div class="regra">
+        </div>
 
 
 
@@ -452,7 +526,8 @@
 
     <div class="categoria" data-category="classe7">
         <h2>7️⃣ CLASSE 7 - RENDIMENTOS</h2>
-        
+         <div class="regra">
+        </div>
 
 
 
@@ -461,7 +536,8 @@
 
     <div class="categoria" data-category="classe8">
         <h2>8️⃣ CLASSE 8 - RESULTADOS</h2>
-        
+         <div class="regra">
+        </div>
 
 
 
